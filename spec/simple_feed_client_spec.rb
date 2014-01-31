@@ -71,16 +71,4 @@ describe SimpleFeedClient do
     expect(user["gravatar"]).to eq("http://www.gravatar.com/avatar/55d5e747fc442f493b00fc1179227c5a?s=40")
   end
 
-  # "type":"ImageItem",
-  # "image_url":"http://www.newscientist.com/blogs/shortsharpscience/assets_c/2011/07/SelfMonkey-thumb-600x723-131986.jpg",
-  # "text":"Hi guys whats up",
-  # "id":45,
-  # "created_at":"2014-01-30T23:20:12Z",
-  # "link":"http://localhost:3000/api/feeds/dinesh16/items/45.json",
-  # "feed":{"link":"http://localhost:3000/api/feeds/dinesh16.json",
-  #         "name":"dinesh16"},
-  # "user":{"username":"dinesh16",
-  #         "email":"dinesh.anthony@surfdome.com",
-  #         "gravatar":"http://www.gravatar.com/avatar/55d5e747fc442f493b00fc1179227c5a?s=40"
-
 end
