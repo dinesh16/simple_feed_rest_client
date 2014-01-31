@@ -1,73 +1,68 @@
 require './lib/simple_feed_client'
 require 'json'
+require 'vcr'
+
+# This will save the response in a file, so you do not have to resend request again and again 
+VCR.configure do |c|
+  c.cassette_library_dir = 'spec/fixtures/vcr'
+  c.hook_into :webmock # or :fakeweb
+end
 
 describe SimpleFeedClient do 
 
-  let!(:client) {
-    client = SimpleFeedClient.new(username: "dinesh16", password: "passwd")
-  }
-
-  it "has username" do
-    expect(client.username).to eq("dinesh16")
-  end
-
-  it "has password" do
-    expect(client.password).to eq("passwd")
+  let!(:response) do
+    VCR.use_cassette('synopsis') do
+      client = SimpleFeedClient.new(username: "dinesh16", password: "passwd")
+      response = JSON.parse(client.request).first
+    end
   end
 
   it "has type" do
-    type = JSON.parse(client.request).first["type"]
-    expect(type).to eq("ImageItem")
+    expect(response["type"]).to eq("ImageItem")
   end
 
   it "has image_url" do
-    image_url = JSON.parse(client.request).first["image_url"]
-    expect(image_url).to eq("http://www.newscientist.com/blogs/shortsharpscience/assets_c/2011/07/SelfMonkey-thumb-600x723-131986.jpg")
+    expect(response["image_url"]).to eq("http://www.newscientist.com/blogs/shortsharpscience/assets_c/2011/07/SelfMonkey-thumb-600x723-131986.jpg")
   end
 
   it "has text" do
-    text = JSON.parse(client.request).first["text"]
-    expect(text).to eq("Hi guys whats up")
+    expect(response["text"]).to eq("Hi guys whats up")
   end
 
   it "has id" do
-    id = JSON.parse(client.request).first["id"]
-    expect(id).to eq(45)
+    expect(response["id"]).to eq(45)
   end
 
   it "has created at" do
-    created_at = JSON.parse(client.request).first["created_at"]
-    expect(created_at).to eq("2014-01-30T23:20:12Z")
+    expect(response["created_at"]).to eq("2014-01-30T23:20:12Z")
   end
 
   it "has link" do
-    link = JSON.parse(client.request).first["link"]
-    expect(link).to eq("http://localhost:3000/api/feeds/dinesh16/items/45.json")
+    expect(response["link"]).to eq("http://localhost:3000/api/feeds/dinesh16/items/45.json")
   end
 
   it "has feed link" do
-    # pending "do it later"
-    feed = JSON.parse(client.request).first["feed"]
+    feed = response["feed"]
     expect(feed["link"]).to eq("http://localhost:3000/api/feeds/dinesh16.json")
   end
 
   it "has feed name" do
-    feed = JSON.parse(client.request).first["feed"]
+    feed = response["feed"]
     expect(feed["name"]).to eq("dinesh16")
   end
 
   it "has user username" do
-    user = JSON.parse(client.request).first["user"]
+    user = response["user"]
     expect(user["username"]).to eq("dinesh16")
   end
 
   it "has user email" do
-    user = JSON.parse(client.request).first["user"]
+    user = response["user"]
     expect(user["email"]).to eq("dinesh.anthony@surfdome.com")
   end
 
   it "has user gravatar" do
-    user = JSON.parse(client.request).first["user"]
+    user = response["user"]
     expect(user["gravatar"]).to eq("http://www.gravatar.com/avatar/55d5e747fc442f493b00fc1179227c5a?s=40")
   end
 

@@ -18,19 +18,4 @@ class SimpleFeedClient
                                 :password => @password)
   end
 
-  class Feed
-
-    attr_reader :link, :name
-
-    def initialize(attributes)
-      @link = attributes[:link]
-      @name = attributes[:name]
-    end
-
-  end
-
-  class User
-
-  end
-
 end
