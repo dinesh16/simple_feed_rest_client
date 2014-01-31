@@ -10,7 +10,7 @@ class SimpleFeedClient
   end
 
   def request
-    # pry
+    # require 'pry'
     # binding.pry
     RestClient::Request.execute(:url => 'http://localhost:3000/api/feeds/dinesh16/items.json', 
                                 :method => :get, 

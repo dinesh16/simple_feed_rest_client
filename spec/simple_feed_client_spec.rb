@@ -1,8 +1,6 @@
 require './lib/simple_feed_client'
 require 'json'
 
-
-
 describe SimpleFeedClient do 
 
   let!(:client) {
@@ -47,16 +45,30 @@ describe SimpleFeedClient do
     expect(link).to eq("http://localhost:3000/api/feeds/dinesh16/items/45.json")
   end
 
-  it "has feed" do
-    pending "do it later"
+  it "has feed link" do
+    # pending "do it later"
     feed = JSON.parse(client.request).first["feed"]
-    expect(feed).to eq("feeddddd")
+    expect(feed["link"]).to eq("http://localhost:3000/api/feeds/dinesh16.json")
   end
 
-  it "has user" do
-    pending "do it later"
-    created_at = JSON.parse(client.request).first["created_at"]
-    # expect(created_at).to eq("2014-01-30T23:20:12Z")
+  it "has feed name" do
+    feed = JSON.parse(client.request).first["feed"]
+    expect(feed["name"]).to eq("dinesh16")
+  end
+
+  it "has user username" do
+    user = JSON.parse(client.request).first["user"]
+    expect(user["username"]).to eq("dinesh16")
+  end
+
+  it "has user email" do
+    user = JSON.parse(client.request).first["user"]
+    expect(user["email"]).to eq("dinesh.anthony@surfdome.com")
+  end
+
+  it "has user gravatar" do
+    user = JSON.parse(client.request).first["user"]
+    expect(user["gravatar"]).to eq("http://www.gravatar.com/avatar/55d5e747fc442f493b00fc1179227c5a?s=40")
   end
 
   # "type":"ImageItem",
